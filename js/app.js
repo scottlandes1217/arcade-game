@@ -1,5 +1,7 @@
+var CANVAS_WIDTH = 550;
+
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
@@ -22,14 +24,15 @@ Enemy.prototype.update = function(dt) {
     this. detectCollision();
 };
 
-Enemey.prototype.updatePosition = function(dt) {
+Enemy.prototype.updatePosition = function(dt) {
 	this.x += this.speed * dt;
-	if (this.x <= $("canvas").width()) {
+	if (this.x >= CANVAS_WIDTH){
 		this.x = 0;
+	}
 	//DO THIS: UPDATE POSITION
 };
 
-Enemey.prototype.detectCollision = function() {
+Enemy.prototype.detectCollision = function() {
 	//DO THIS: DETECT COLLISION
 };
 
@@ -46,6 +49,7 @@ var Player = function(x, y, speed) {
 	this.y = y;
 	this.speed = speed;
 	this.sprite = 'images/char-boy.png'
+	this.lastKey = null;
 
 };
 
@@ -53,6 +57,25 @@ var Player = function(x, y, speed) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+Player.prototype.update = function () {
+
+};
+
+Player.prototype.render = function () {
+	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.handleInput = function(KeyPress) {
+	this.lastKey = key;
+
+};
+
+
+var allEnemies = [
+	new Enemy(0,0,100)
+];
+
+var player = new Player(200,400,100);
 
 
 // This listens for key presses and sends the keys to your
