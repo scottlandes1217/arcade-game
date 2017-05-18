@@ -14,11 +14,22 @@ var Enemy = function() {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
+
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += this.speed * dt;
-}; olympus eden
+    this. updatePosition(dt);
+    this. detectCollision();
+};
+
+Enemey.prototype.updatePosition = function(dt) {
+	this.x += this.speed * dt;
+	//DO THIS: UPDATE POSITION
+};
+
+Enemey.prototype.detectCollision = function() {
+	//DO THIS: DETECT COLLISION
+};
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
