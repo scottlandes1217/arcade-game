@@ -24,6 +24,8 @@ Enemy.prototype.update = function(dt) {
 
 Enemey.prototype.updatePosition = function(dt) {
 	this.x += this.speed * dt;
+	if (this.x <= $("canvas").width()) {
+		this.x = 0;
 	//DO THIS: UPDATE POSITION
 };
 
@@ -39,7 +41,13 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function(x, y, speed) {
+	this.x = x;
+	this.y = y;
+	this.speed = speed;
+	this.sprite = 'images/char-boy.png'
 
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
