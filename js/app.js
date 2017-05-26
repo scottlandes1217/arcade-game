@@ -53,29 +53,50 @@ var Player = function(x, y, speed) {
 
 };
 
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
 Player.prototype.update = function () {
-
+    // function not needed right now
 };
 
 Player.prototype.render = function () {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function(KeyPress) {
-	this.lastKey = key;
 
+//KeyPress Function
+
+Player.prototype.handleInput = function(keyPress) {
+	if (keyPress == 'left') {
+        player.x -= player.speed;
+    }
+    if (keyPress == 'up') {
+        player.y -= player.speed;
+    }
+    if (keyPress == 'right') {
+        player.x += player.speed;
+    }
+    if (keyPress == 'down') {
+        player.y += player.speed;
+    }
+    console.log('keyPress is: ' + keyPress);
 };
 
 
+
+//Add New Enemies
+
 var allEnemies = [
-	new Enemy(0,0,100)
+	new Enemy(200,200,100),
+	new Enemy(100,100,200),
+	new Enemy(300,100,200)
 ];
 
-var player = new Player(200,400,100);
+
+var player = new Player(202.5, 383, 50);
 
 
 // This listens for key presses and sends the keys to your
