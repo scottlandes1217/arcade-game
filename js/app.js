@@ -1,5 +1,5 @@
 var CANVAS_WIDTH = 907;
-var CANVAS_HEIGHT = 171;
+var CANVAS_HEIGHT = 140;
 var CANVAS_BOTTOM = 383;
 var CANVAS_RIGHT = 915;
 var CANVAS_LEFT = 2.5;
@@ -15,7 +15,7 @@ var Enemy = function(x, y, speed) {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-zombie.png';
 };
 
 // Update the enemy's position, required method for game
@@ -50,7 +50,7 @@ var Player = function(x, y, speed) {
 	this.x = x;
 	this.y = y;
 	this.speed = speed;
-	this.sprite = 'images/char-boy.png';
+	this.sprite = 'images/char-scott.png';
 
 };
 
