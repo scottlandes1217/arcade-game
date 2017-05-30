@@ -4,6 +4,9 @@ var CANVAS_BOTTOM = 383;
 var CANVAS_RIGHT = 915;
 var CANVAS_LEFT = 2.5;
 var PLAYER_SPEED = 25;
+var ENEMYPATH_TOP = 184;
+var ENEMYPATH_BOTTOM = 50;
+var TOP_ENEMY_SPEED = 350;
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -100,16 +103,21 @@ var displayScoreLevel = function(aScore, aLevel) {
     document.body.insertBefore(scoreLevelDiv, firstCanvasTag[0]);
 };
 
+
 var detectCollision = function(anEnemy) {
     // check for collision between enemy and player
+
        if (
         player.y + 131 >= anEnemy.y + 90
         && player.x + 25 <= anEnemy.x + 88
         && player.y + 73 <= anEnemy.y + 135
-        && player.x + 76 >= anEnemy.x + 11) {
+        && player.x + 76 >= anEnemy.x + 11) 
+       {
+        
         console.log('collided');
         player.x = (CANVAS_WIDTH/2);
         player.y = CANVAS_BOTTOM;
+        score -= 1;
     }
     // check for player reaching top of canvas and winning the game
     // if player wins, add 1 to the score and level
@@ -117,7 +125,7 @@ var detectCollision = function(anEnemy) {
     if (player.y <= 0) {        
         player.x = (CANVAS_WIDTH/2);
         player.y = CANVAS_BOTTOM;
-        console.log('Congrats!');
+        console.log('Level Completed!');
 
         score += 1;
         gameLevel += 1;
@@ -146,7 +154,7 @@ var increaseDifficulty = function(numEnemies) {
 
     // load new set of enemies
     for (var i = 0; i <= numEnemies; i++) {
-        var enemy = new Enemy(0, Math.random() * 184 + 50, Math.random() * 256);
+        var enemy = new Enemy(0, Math.random() * (ENEMYPATH_TOP + ENEMYPATH_BOTTOM), Math.random() * TOP_ENEMY_SPEED);
         
         allEnemies.push(enemy);
     }
@@ -162,7 +170,7 @@ var player = new Player((CANVAS_WIDTH/2), CANVAS_BOTTOM, PLAYER_SPEED);
 var score = 0;
 var gameLevel = 1;
 var scoreLevelDiv = document.createElement('div');
-var enemy = new Enemy(0, Math.random() * 184 + 50, Math.random() * 256);
+var enemy = new Enemy(0, Math.random() * (ENEMYPATH_TOP + ENEMYPATH_BOTTOM), Math.random() * TOP_ENEMY_SPEED);
 
 allEnemies.push(enemy);
 
