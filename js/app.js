@@ -15,10 +15,12 @@ var Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
-
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-zombie.png';
+    //collision
+    this.width = 20;
+    this.height = 75;
 };
 
 // Update the enemy's position, required method for game
@@ -54,6 +56,9 @@ var Player = function(x, y, speed) {
 	this.y = y;
 	this.speed = speed;
 	this.sprite = 'images/char-scott.png';
+    //collision
+    this.width = 20;
+    this.height = 75;
 
 };
 
@@ -103,17 +108,14 @@ var displayScoreLevel = function(aScore, aLevel) {
     document.body.insertBefore(scoreLevelDiv, firstCanvasTag[0]);
 };
 
-
 var detectCollision = function(anEnemy) {
     // check for collision between enemy and player
 
-       if (
-        player.y + 131 >= anEnemy.y + 90
-        && player.x + 25 <= anEnemy.x + 88
-        && player.y + 73 <= anEnemy.y + 135
-        && player.x + 76 >= anEnemy.x + 11) 
-       {
-        
+    if (player.x < enemy.x + enemy.width && 
+        player.x + player.width > enemy.x &&
+        player.y < enemy.y + enemy.height &&
+        player.height + player.y > enemy.y) {
+
         console.log('collided');
         player.x = (CANVAS_WIDTH/2);
         player.y = CANVAS_BOTTOM;
