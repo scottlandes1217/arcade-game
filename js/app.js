@@ -13,15 +13,13 @@ var TOP_ENEMY_SPEED = 350;
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
     this.x = x;
     this.y = y;
     this.speed = speed;
     // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.sprite = 'images/enemy-zombie.png';
     //collision
-    this.width = 30;
+    this.width = 40;
     this.height = 75;
 };
 
@@ -41,7 +39,7 @@ Enemy.prototype.updatePosition = function(dt) {
     // which will ensure the game runs at the same speed for all computers.
     this.x += this.speed * dt;
 
-   // make enemies loop to left side of canvas after reaching canvas.width
+    // make enemies loop to left side of canvas after reaching canvas.width
     if (this.x >= CANVAS_WIDTH) {
         this.x = 0;
     }
@@ -107,8 +105,6 @@ Player.prototype.handleInput = function(keyPress) {
 };
 
 
-
-
 // Function to display player's score
 var displayScoreLevel = function(aScore, aLevel) {
     var canvas = document.getElementsByTagName('canvas');
@@ -123,16 +119,17 @@ var displayScoreLevel = function(aScore, aLevel) {
 // check for collision between enemy and player
 
 var detectCollision = function(anEnemy) {
+    allEnemies.forEach(function(enemy) {
+        if (player.x < enemy.x + enemy.width &&
+            player.x + player.width > enemy.x &&
+            player.y < enemy.y + enemy.height &&
+            player.height + player.y > enemy.y) {
 
-    if (player.x < enemy.x + enemy.width &&
-        player.x + player.width > enemy.x &&
-        player.y < enemy.y + enemy.height &&
-        player.height + player.y > enemy.y) {
-
-        console.log('collided');
-        player.x = (CANVAS_WIDTH / 2);
-        player.y = CANVAS_BOTTOM;
-    }
+            console.log('collided');
+            player.x = (CANVAS_WIDTH / 2);
+            player.y = CANVAS_BOTTOM;
+        }
+    });
 };
 
 // check if player runs into left, bottom, or right canvas walls
@@ -154,7 +151,7 @@ var borderCollision = function(hitBorder) {
 // check for player reaching top of canvas and winning the game
 // if player wins, add 1 to the score and level
 
-var LevelUp = function(LevelUp) {   
+var LevelUp = function(LevelUp) {
 
     if (player.y + CANVAS_TOP <= 0) {
 
@@ -198,7 +195,6 @@ var scoreLevelDiv = document.createElement('div');
 var enemy = new Enemy(0, Math.random() * (ENEMYPATH_TOP + ENEMYPATH_BOTTOM), Math.random() * TOP_ENEMY_SPEED);
 
 allEnemies.push(enemy);
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
