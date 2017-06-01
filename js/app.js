@@ -1,14 +1,14 @@
 //Variables to remove Magic Numbers
-var CANVAS_WIDTH = 910;
+var CANVAS_WIDTH = 1010;
 var CANVAS_TOP = 30;
 var CANVAS_HEIGHT = 140;
 var CANVAS_BOTTOM = 383;
 var CANVAS_RIGHT = 950;
 var CANVAS_LEFT = -30;
-var PLAYER_SPEED = 25;
+var PLAYER_SPEED = 35;
 var ENEMYPATH_TOP = 184;
-var ENEMYPATH_BOTTOM = 50;
-var TOP_ENEMY_SPEED = 450;
+var ENEMYPATH_BOTTOM = 40;
+var TOP_ENEMY_SPEED = 350;
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -19,9 +19,17 @@ var Enemy = function(x, y, speed) {
     // The image/sprite for our enemies, this uses
     this.sprite = 'images/enemy-zombie.png';
     //collision
-    this.width = 40;
-    this.height = 75;
+    this.width = 30;
+    this.height = 20;
 };
+
+var Sprite = function() {
+    if (enemy.speed >= 300)
+        sprite = 'images/enemy-zombie.png'
+    if (enemy.speed <= 300)
+        sprite = 'images/enemy-bug.png'
+}
+
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -59,8 +67,8 @@ var Player = function(x, y, speed) {
     this.speed = speed;
     this.sprite = 'images/char-scott.png';
     //collision
-    this.width = 20;
-    this.height = 75;
+    this.width = 30;
+    this.height = 80;
 
 };
 
@@ -101,9 +109,11 @@ Player.prototype.handleInput = function(keyPress) {
     if (keyPress == 'down') {
         player.y += player.speed;
     }
+    if (keyPress == 'shift'+'left') {
+    player.x -= player.x;
+}
     console.log('keyPress is: ' + keyPress);
 };
-
 
 // Function to display player's score
 var displayScoreLevel = function(aScore, aLevel) {
@@ -119,7 +129,7 @@ var displayScoreLevel = function(aScore, aLevel) {
 // check if player runs into left, bottom, or right canvas walls
 // prevent player from moving beyond canvas wall boundaries
 
-var borderCollision = function(hitBorder) {
+var borderCollision = function() {
 
     if (player.y > CANVAS_BOTTOM) {
         player.y = CANVAS_BOTTOM;
@@ -134,7 +144,7 @@ var borderCollision = function(hitBorder) {
 
 // check for collision between enemy and player
 
-var detectCollision = function(anEnemy) {
+var detectCollision = function() {
     allEnemies.forEach(function(enemy) {
         if (player.x < enemy.x + enemy.width &&
             player.x + player.width > enemy.x &&
@@ -152,7 +162,7 @@ var detectCollision = function(anEnemy) {
 // check for player reaching top of canvas and winning the game
 // if player wins, add 1 to the score and level
 
-var LevelUp = function(LevelUp) {
+var LevelUp = function() {
 
     if (player.y + CANVAS_TOP <= 0) {
 
@@ -163,6 +173,8 @@ var LevelUp = function(LevelUp) {
         gameLevel += 1;
         score += 1;
         console.log('Score: ' + score + ', Level: ' + gameLevel);
+       
+        //Increase number of enemies based on player's level   
         increaseDifficulty(gameLevel);
 
     }
@@ -170,14 +182,13 @@ var LevelUp = function(LevelUp) {
 
 // Pass score as an argument to the increaseDifficulty function
 // Increase number of enemies based on player's level
-// Place all enemy objects in an array called allEnemies
 var increaseDifficulty = function(numEnemies) {
     // remove all previous enemies on canvas
     allEnemies.length = 0;
 
     // load new set of enemies
     for (var i = 1; i <= numEnemies; i++) {
-        var enemy = new Enemy(0, Math.random() * (ENEMYPATH_TOP + ENEMYPATH_BOTTOM), Math.random() * TOP_ENEMY_SPEED);
+        var enemy = new Enemy(Math.random() * (CANVAS_LEFT + 700), Math.random() * (ENEMYPATH_TOP + ENEMYPATH_BOTTOM), Math.random() * (350 - 50 + 1) + 50);
 
         allEnemies.push(enemy);
     }
@@ -193,7 +204,7 @@ var player = new Player((CANVAS_WIDTH / 2), CANVAS_BOTTOM, PLAYER_SPEED);
 var score = 0;
 var gameLevel = 1;
 var scoreLevelDiv = document.createElement('div');
-var enemy = new Enemy(0, Math.random() * (ENEMYPATH_TOP + ENEMYPATH_BOTTOM), Math.random() * TOP_ENEMY_SPEED);
+var enemy = new Enemy(Math.random() * (CANVAS_LEFT + 700), Math.random() * (ENEMYPATH_TOP + ENEMYPATH_BOTTOM), Math.random() * (350 - 50 + 1) + 50);
 
 allEnemies.push(enemy);
 
@@ -204,7 +215,8 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        16: 'shift'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
